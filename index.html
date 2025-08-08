@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ivanna 🪼🌊</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Paleta fresca con acentos cálidos */
+      --mint:#b8f3de; --mint-2:#e6fff5; --teal:#065f46; --ink:#0b1020;
+      --accent:#ff6b6b; --accent2:#ffd7d2; --bg1:#ecfff8; --bg2:#f6fffb;
+      --glass: rgba(255,255,255,.75);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Nunito', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink);
+      background:
+        radial-gradient(900px 600px at 10% -10%, rgba(184,243,222,.55), transparent 60%),
+        radial-gradient(900px 600px at 110% 110%, rgba(230,255,245,.9), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      display:flex; align-items:center; min-height:100vh; padding:20px; overflow-x:hidden;
+    }
+
+    /* Burbujas suaves en el fondo */
+    .blob{ position:fixed; border-radius:50%; filter: blur(40px); opacity:.35; z-index:-1; animation: float 16s ease-in-out infinite alternate }
+    .b1{ width:420px; height:420px; left:-120px; top:-80px; background: radial-gradient(circle at 40% 40%, var(--mint), transparent 60%) }
+    .b2{ width:520px; height:520px; right:-160px; bottom:-120px; background: radial-gradient(circle at 60% 60%, #c9fff0, transparent 60%) }
+    @keyframes float{ 50%{ transform: translateY(12px) translateX(10px) scale(1.03) } }
+
+    .shell{ width:100%; max-width:980px; margin:0 auto }
+
+    /* Tarjeta con glassmorphism */
+    .card{
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-radius:24px; box-shadow:0 30px 80px rgba(6,95,70,0.12);
+      border:1px solid rgba(6,95,70,.10);
+      overflow:hidden; position:relative;
+    }
+    /* Borde iridiscente sutil */
+    .card::before{
+      content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
+      background: linear-gradient(135deg, rgba(6,95,70,.18), rgba(255,107,107,.14));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+    }
+
+    /* HERO: sólo el botón centrado al inicio */
+    .hero{ display:grid; place-items:center; min-height:52vh; padding:28px }
+    .cta{
+      --shadow: 0 10px 24px rgba(6,95,70,.20);
+      border:none; outline:none; cursor:pointer; user-select:none;
+      font-weight:900; font-size:clamp(18px, 2.8vw, 22px); letter-spacing:.3px;
+      padding:16px 22px; border-radius:16px; color:#05382c;
+      background: linear-gradient(135deg, var(--mint), #c9f7e8);
+      box-shadow: var(--shadow);
+      transition: transform .12s ease, box-shadow .25s ease, filter .3s ease;
+      position:relative; overflow:hidden;
+    }
+    .cta::after{ /* brillo al pasar */
+      content:""; position:absolute; inset:-40%; background: radial-gradient(180px 180px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.65), transparent 60%); opacity:0; transition: opacity .25s ease;
+    }
+    .cta:hover{ transform: translateY(-1px); box-shadow: 0 16px 36px rgba(6,95,70,.28) }
+    .cta:hover::after{ opacity:1 }
+    .cta:active{ transform: translateY(0) scale(.98) }
+    .cta:focus-visible{ outline: 3px solid #0ea5a5; outline-offset: 4px }
+
+    /* Transición al contenido */
+    .hero.hide{ animation: heroOut .45s ease forwards }
+    @keyframes heroOut{ to{ opacity:0; transform: scale(.98) } }
+
+    /* CONTENIDO: aparece con suave montaje */
+    .reveal{ display:none; opacity:0; transform: translateY(8px) }
+    .reveal.show{ display:block; animation: fadeIn .5s ease forwards }
+    @keyframes fadeIn{ to{ opacity:1; transform:none } }
+
+    /* Título con efecto tipeo sutil */
+    h1{ font-family:'Playfair Display', serif; font-size:clamp(26px,5vw,42px); color:var(--teal); margin: 22px auto; text-align:center }
+    .type{ display:inline-block; border-right:2px solid var(--teal); white-space:nowrap; overflow:hidden;
+           animation: typing 2.8s steps(28,end), caret .9s step-end infinite }
+    @keyframes typing{ from{ width:0 } to{ width:100% } }
+    @keyframes caret{ 50%{ border-color: transparent } }
+
+    /* Carrusel mejorado */
+    .section{ padding: 0 22px 26px }
+    .carousel{ position:relative; border-radius:22px; overflow:hidden; background:#ffffff; border:1px solid rgba(6,95,70,.08) }
+    .viewport{ height:min(64vh, 520px); overflow:hidden }
+    .track{ display:flex; height:100%; transition: transform .7s cubic-bezier(.2,.8,.2,1) }
+    .slide{ flex:0 0 100%; height:100% }
+    .slide img{ width:100%; height:100%; object-fit:cover; display:block; transform-origin:center; animation: kenburns 16s ease-in-out infinite }
+    @keyframes kenburns{0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)}}
+
+    .progress{ height:5px; background:rgba(6,95,70,.12); border-radius:999px; overflow:hidden; margin:10px; }
+    .bar{ height:100%; width:0; background: linear-gradient(90deg, var(--mint), var(--accent)); transition: width .2s linear }
+
+    /* Prefiere reducir movimiento */
+    @media (prefers-reduced-motion: reduce){
+      .slide img{ animation:none }
+      .cta, .blob{ animation:none }
+      .track{ transition:none }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+
+  <div class="shell">
+    <div class="card">
+      <!-- HERO: sólo botón al inicio -->
+      <section class="hero" id="hero">
+        <button class="cta" id="que" aria-controls="contenido" aria-expanded="false">¿Cómo te quiero?</button>
+      </section>
+
+      <!-- CONTENIDO: aparece tras el click -->
+      <div class="section reveal" id="contenido" role="region" aria-live="polite">
+        <h1><span class="type">te quiero deberitas deberitas</span></h1>
+        <div class="carousel">
+          <div class="viewport">
+            <div class="track" id="track">
+              <figure class="slide"><img src="foto1.jpeg" alt="Recuerdo 1"></figure>
+              <figure class="slide"><img src="foto2.jpeg" alt="Recuerdo 2"></figure>
+              <figure class="slide"><img src="foto3.jpeg" alt="Recuerdo 3"></figure>
+              <figure class="slide"><img src="foto4.jpeg" alt="Recuerdo 4"></figure>
+            </div>
+          </div>
+          <div class="progress"><div class="bar" id="bar"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Microinteracción: brillo sigue el mouse en el botón
+    const cta = document.getElementById('que');
+    cta.addEventListener('mousemove', (e)=>{
+      const r = cta.getBoundingClientRect();
+      cta.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100)+'%');
+      cta.style.setProperty('--my', ((e.clientY - r.top)/r.height*100)+'%');
+    });
+
+    // Transición al contenido
+    const hero = document.getElementById('hero');
+    const contenido = document.getElementById('contenido');
+    cta.addEventListener('click', ()=>{
+      cta.setAttribute('aria-expanded','true');
+      hero.classList.add('hide');
+      setTimeout(()=>{ hero.style.display='none'; contenido.classList.add('show'); }, 450);
+    });
+
+    // Carrusel autoplay con barra de progreso + swipe táctil
+    const track = document.getElementById('track');
+    const slides = track.querySelectorAll('.slide');
+    const bar = document.getElementById('bar');
+    let idx = 0, progress = 0, interval = 3800, raf;
+
+    const goTo = (i) => { idx = (i+slides.length)%slides.length; track.style.transform = `translateX(-${idx*100}%)`; };
+    const next = () => goTo(idx+1);
+
+    const tick = () => {
+      progress += 1000/60; // ~ms por frame
+      const pct = Math.min(progress/interval, 1);
+      bar.style.width = (pct*100)+'%';
+      if(pct>=1){ progress = 0; next(); }
+      raf = requestAnimationFrame(tick);
+    };
+
+    let startX=0; // swipe
+    track.addEventListener('touchstart', e=> startX = e.touches[0].clientX, {passive:true});
+    track.addEventListener('touchend', e=>{
+      const dx = e.changedTouches[0].clientX - startX;
+      if(Math.abs(dx)>40){ progress=0; dx<0? next(): goTo(idx-1); }
+    });
+
+    goTo(0);
+    raf = requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
